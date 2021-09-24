@@ -4,6 +4,7 @@ import sys
 from  _thread import *
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+list_of_clients = []
 
 def main(argv):
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -14,11 +15,22 @@ def main(argv):
     server.bind((ip_address, port))
     server.listen(100)
 
+    while True:
+	    conn, addr = server.accept()
 
-list_of_clients = []
+	    list_of_clients.append(conn)
 
-def clientthread(conn, addr):
-        #sends message
+	    print (addr[0] + " connected")
+
+	    # creates a thread for every client
+	    start_new_thread(client_thread,(conn,addr))	
+
+    conn.close()
+    server.close()
+
+
+def client_thread(conn, addr):
+    #sends message
 	conn.send(b'Welcome to NASAs data storage')
 
 	while True:
@@ -60,15 +72,3 @@ def remove(connection):
 	if connection in list_of_clients:
 		list_of_clients.remove(connection)
 
-while True:
-	conn, addr = server.accept()
-
-	list_of_clients.append(conn)
-
-	print (addr[0] + " connected")
-
-	# creates a thread for every client
-	start_new_thread(clientthread,(conn,addr))	
-
-conn.close()
-server.close()

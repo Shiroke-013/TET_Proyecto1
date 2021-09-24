@@ -8,8 +8,9 @@ def main(argv):
     ip_address = argv[1]
     port = argv[2]
     server.connect((ip_address, port))
-
-    while True:
+    aux = True
+    
+    while aux:
     	sockets_list = [sys.stdin, server]
     	read_sockets,write_socket, error_socket = select.select(sockets_list,[],[])
 
@@ -19,9 +20,12 @@ def main(argv):
                     print (message.decode())    
                 else:
                     message = sys.stdin.readline()
-                    server.send(message.encode())
-                    sys.stdout.write(message)
-                    sys.stdout.flush()
-
+                    if message == "exit":
+                        server.close()
+                        aux = False
+                    else:
+                        server.send(message.encode())
+                        sys.stdout.write(message)
+                        sys.stdout.flush()
+    
 main(sys.argv)
-server.close()
