@@ -6,7 +6,7 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 def main(argv):
     ip_address = argv[1]
-    port = argv[2]
+    port = int(argv[2])
     server.connect((ip_address, port))
     aux = True
     

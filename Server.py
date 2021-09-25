@@ -11,6 +11,7 @@ list_of_clients = []
 db_name = ""
 
 def main(argv):
+    print("Empecé")
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
     if len(sys.argv) != 7:
@@ -18,7 +19,7 @@ def main(argv):
         exit()
     else: 
         ip_address = argv[1]
-        port = argv[2]
+        port = int(argv[2])
         host = argv[3]
         user = argv[4]
         psswd = argv[5]
@@ -44,7 +45,7 @@ def main(argv):
     server.close()
 
 def start_connection(host, user, psswd, db_name):
-    connection = pymysql.connect(host,user, psswd, db_name)
+    connection = pymysql.connect(host=host, user=user, password=psswd)
     with connection:
         cur = connection.cursor()
         return cur, connection
@@ -126,3 +127,4 @@ def remove(connection):
 	if connection in list_of_clients:
 		list_of_clients.remove(connection)
 
+main(sys.argv)
