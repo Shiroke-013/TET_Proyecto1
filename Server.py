@@ -115,7 +115,7 @@ def check_table_exists(db_connection):
     print("Connection object: ", db_connection)
     db_cur = db_connection.cursor()
     print("before execute")
-    exe = "SELECT * FROM nasa WHERE table_name = {}".format('nasa_data')
+    exe = "SELECT * FROM nasa WHERE table_name={}".format('nasa_data')
     print(exe)
     db_cur.execute(exe)
     print("AFTER EXECUTE")
