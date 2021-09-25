@@ -17,7 +17,7 @@ Todas las instancias deben contra con python 3, ademas de git y un edito de text
 </code></pre>
 
 Ademas se debe installar la biblioteca de pymysql con el siguiente comando:
-<pre><code> $ python3 -m pip install pymysql
+<pre><code> $ python3 -m pip install mysql-connector-python
 </code></pre>
 
 Se planteo una arquitectura del proyecto la cual de ve así:
