@@ -65,8 +65,8 @@ def client_thread(conn, addr, cur, connection, host, user, psswd):
                     #Message structure I/key/value no spaces or S/key/num
                     msg = message.split('/')
                     print(msg)
-                    print("msg size: ", msg.size())
-                    if  msg.size() == 3:
+                    print("msg size: ", len(msg))
+                    if  len(msg) == 3:
                         print(msg)
                         if msg[0] == 'I':
                             print("insert")
