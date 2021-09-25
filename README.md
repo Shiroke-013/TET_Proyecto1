@@ -18,6 +18,7 @@ Ademas se debe installar la biblioteca de pymysql con el siguiente comando:
 </code></pre>
 
 Se planteo una arquitectura del proyecto la cual de ve así:
+
 ![Arquitectura](https://github.com/Shiroke-013/TET_Proyecto1/blob/main/Arquitectura_Proyecto1.drawio.png)
 
 ## Ejecución
