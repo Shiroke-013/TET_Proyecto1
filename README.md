@@ -30,12 +30,12 @@ Luego de verificar esto se debe correr en la instancia servidor el archivo Serve
 Luego de tener el servidor corriendo se puede poner a correr los clientes que se desee de la siente manera:
 <pre><code> $ python3 Client1.py [PUBLIC_IP_SERVER] [PUERTO]
 </code></pre>
-PUBLIC_IP_SERVER: La IP publica de la instancia que funciona como servidor. <br />
-PUERTO: El puerto previamente seleccionado y abierto para TCP. <br />
-HOST: EndPoint de la base de datos master. <br />
-USUARIO: Usuario de acceso a la base de datos master. <br />
-CONTRASEÑA: Contraseña de acceso a la base de datos master. <br />
-NOMBRE_DB: El nombre de la base de datos a la que se hara la conexión, ya que la tabla dentro de la base de datos llevara el mismo nombre.
+**PUBLIC_IP_SERVER:** La IP publica de la instancia que funciona como servidor. <br />
+**PUERTO:** El puerto previamente seleccionado y abierto para TCP. <br />
+**HOST:** EndPoint de la base de datos master. <br />
+**USUARIO:** Usuario de acceso a la base de datos master. <br />
+**CONTRASEÑA:** Contraseña de acceso a la base de datos master. <br />
+**NOMBRE_DB:** El nombre de la base de datos a la que se hara la conexión, ya que la tabla dentro de la base de datos llevara el mismo nombre.
 
 # Referencias
 - https://www.geeksforgeeks.org/distributed-database-system/
