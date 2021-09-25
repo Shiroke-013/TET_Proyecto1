@@ -81,14 +81,17 @@ def client_thread(conn, addr, cur, connection):
 
                         elif msg[0] =="S":
                             #how to select records from the DB
-                            sel = "SELECT {} FROM {}  WHERE {}".format(msg[2], db_name, msg[1])
-                            data = cur.execute(sel)
-                            for rec in data:
-                                print (rec[0] + "," + rec[1])
-                            
-                            message_to_send = "<" + str(addr[0]) + "> " + 'address had read' + msg[2] + 'records'
-                            send_to_clients(message_to_send, conn)
-                    
+                            if check_table_exists(connection):
+                                sel = "SELECT {} FROM {}  WHERE {}".format(msg[2], db_name, msg[1])
+                                data = cur.execute(sel)
+                                for rec in data:
+                                    print (rec[0] + "," + rec[1])
+                                
+                                message_to_send = "<" + str(addr[0]) + "> " + 'address had read' + msg[2] + 'records'
+                                send_to_clients(message_to_send, conn)
+                            else:
+                                message_to_send = "<" + str(addr[0]) + "> " + 'table does not exist, failed to read'
+                                send_to_clients(message_to_send, conn)
                 else:
                     remove(conn)
                     conn.close()
