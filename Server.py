@@ -67,7 +67,7 @@ def client_thread(conn, addr, cur, connection, host, user, psswd):
                     print(msg)
                     if  msg.size() == 3:
                         print(msg)
-                        if msg[0] == "I":
+                        if msg[0] == 'I':
                             print("insert")
                             #how to save a record in the DB
                             if check_table_exists(connection):
@@ -85,7 +85,7 @@ def client_thread(conn, addr, cur, connection, host, user, psswd):
                             message_to_send = "<" + str(addr[0]) + "> " + 'address saved a record'
                             send_to_clients(message_to_send, conn)
 
-                        elif msg[0] =="S":
+                        elif msg[0] =='S':
                             print("Select")
                             #how to select records from the DB
                             if check_table_exists(connection):
@@ -102,6 +102,7 @@ def client_thread(conn, addr, cur, connection, host, user, psswd):
                                 message_to_send = "<" + str(addr[0]) + "> " + 'table does not exist, failed to read'
                                 send_to_clients(message_to_send, conn)
                 else:
+                    print("ELSE REMOVE CONNECTION")
                     remove(conn)
                     conn.close()
             except:
