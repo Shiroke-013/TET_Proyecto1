@@ -106,6 +106,7 @@ def client_thread(conn, addr, cur, connection, host, user, psswd):
                     remove(conn)
                     conn.close()
             except:
+                print("EXCEPT")
                 continue
 
 def check_table_exists(db_connection):
