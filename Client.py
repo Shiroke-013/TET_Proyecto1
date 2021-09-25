@@ -20,7 +20,7 @@ def main(argv):
                     print (message.decode())    
                 else:
                     message = sys.stdin.readline()
-                    if message == "exit":
+                    if message == "exit\n":
                         server.close()
                         aux = False
                     else:
