@@ -8,7 +8,7 @@ from  _thread import *
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 list_of_clients = []
 
-db_name = ""
+db_name = sys.argv[6]
 
 def main(argv):
     print("Empecé")
@@ -23,12 +23,11 @@ def main(argv):
         host = argv[3]
         user = argv[4]
         psswd = argv[5]
-        db_name = argv[6]
 
     server.bind((ip_address, port))
     server.listen(100)
 
-    cur, connection = start_connection(host, user, psswd, db_name)
+    cur, connection = start_connection(host, user, psswd)
 
     aux = True
     while aux:
