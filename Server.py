@@ -44,15 +44,15 @@ def main(argv):
 
     server.close()
 
-def start_connection(host, user, psswd, db_name):
+def start_connection(host, user, psswd):
     connection = pymysql.connect(host=host, user=user, password=psswd)
     with connection:
         cur = connection.cursor()
         return cur, connection
 
 
-def client_thread(conn, addr, cur, connection):
-    cur = start_connection() 
+def client_thread(conn, addr, cur, connection, host, user, psswd):
+    cur = start_connection(host, user, psswd) 
     #sends message
     conn.send(b'Welcome to NASAs data storage')
 
