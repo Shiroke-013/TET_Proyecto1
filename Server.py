@@ -58,6 +58,7 @@ def client_thread(conn, addr, cur, connection, host, user, psswd):
     while True:
             try:
                 message = conn.recv(2048).decode()
+                print("Received: ", message)
 
                 if message: 
                     #Conection to DB and save records

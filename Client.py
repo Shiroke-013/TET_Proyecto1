@@ -25,7 +25,6 @@ def main(argv):
                         aux = False
                     else:
                         server.send(message.encode())
-                        sys.stdout.write(message)
                         sys.stdout.flush()
     
 main(sys.argv)
