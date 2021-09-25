@@ -71,7 +71,7 @@ def client_thread(conn, addr, cur, connection, host, user, psswd):
                         if msg[0] == 'I':
                             print("insert")
                             #how to save a record in the DB
-                            print("Result of check table: ", check_table_exists(connection))
+                            #print("Result of check table: ", check_table_exists(connection))
                             if check_table_exists(connection):
                                 print("Table exists")
                                 insert_data = "INSERT INTO database-1 (Key, Value) VALUES ({},{})".format(msg[1], msg[2])
@@ -118,9 +118,10 @@ def client_thread(conn, addr, cur, connection, host, user, psswd):
 
 def check_table_exists(db_connection):
     print("Check called")
+    print(db_connection)
     db_cur = db_connection.cursor()
     print("before execute")
-    exe = "SELECT COUNT(*) FROM information_schema.tables WHERE table_name = {}".format('database-1')
+    exe = "SELECT * FROM information_schema.tables WHERE table_name = {}".format('database-1')
     db_cur.execute(exe)
     print("AFTER EXECUTE")
     if db_cur.fetchone()[0] == 1:
