@@ -73,13 +73,13 @@ def client_thread(conn, addr, cur, connection, host, user, psswd):
                             #how to save a record in the DB
                             if check_table_exists(connection):
                                 print("Table exists")
-                                insert_data = """INSERT INTO database-1 (Key, Value) VALUES ({},{})""".format(msg[1], msg[2])
+                                insert_data = "INSERT INTO database-1 (Key, Value) VALUES ({},{})".format(msg[1], msg[2])
                                 cur.execute(insert_data)
                                 connection.commit()
                             else: 
                                 print("Table doesn't exist and it's going to be created")
                                 cur.execute("CREATE TABLE database-1 (Key VARCHAR(255), Value VARCHAR(255))")
-                                insert_data = """INSERT INTO database-1 (Key, Value) VALUES ({},{})""".format(msg[1], msg[2])
+                                insert_data = "INSERT INTO database-1 (Key, Value) VALUES ({},{})".format(msg[1], msg[2])
                                 cur.execute(insert_data)
                                 connection.commit()
 
@@ -119,11 +119,8 @@ def check_table_exists(db_connection):
     print("Check called")
     db_cur = db_connection.cursor()
     print("before execute")
-    db_cur.execute("""
-        SELECT COUNT(*)
-        FROM information_schema.tables
-        WHERE table_name = '{}'
-        """.format('database-1'))
+    exe = "SELECT COUNT(*) FROM information_schema.tables WHERE table_name = {}".format('database-1')
+    db_cur.execute(exe)
     print("AFTER EXECUTE")
     if db_cur.fetchone()[0] == 1:
         db_cur.close()
