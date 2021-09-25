@@ -116,17 +116,22 @@ def client_thread(conn, addr, cur, connection, host, user, psswd):
                 continue
 
 def check_table_exists(db_connection):
+    print("Check called")
     db_cur = db_connection.cursor()
+    print("before execute")
     db_cur.execute("""
         SELECT COUNT(*)
         FROM information_schema.tables
         WHERE table_name = '{}'
         """.format('database-1'))
+    print("AFTER EXECUTE")
     if db_cur.fetchone()[0] == 1:
         db_cur.close()
+        print("Cur closed and table exist")
         return True
 
     db_cur.close()
+    print("Cur closed and table does not exist")
     return False
 
 #sends to all cleints that register have been saved
