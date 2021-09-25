@@ -1,6 +1,7 @@
 import socket
 import select
 import sys
+import mysql.connector
 import pymysql
 from  _thread import *
 
@@ -29,6 +30,7 @@ def main(argv):
 
     cur, connection = start_connection(host, user, psswd, db_name)
 
+    print("CUR: ", cur)
     aux = True
     while aux:
 
@@ -44,7 +46,8 @@ def main(argv):
     server.close()
 
 def start_connection(host, user, psswd, db_name):
-    connection = pymysql.connect(host=host, user=user, password=psswd, database=db_name)
+    #connection = pymysql.connect(host=host, user=user, password=psswd, database=db_name)
+    connection = mysql.connector.connect(user=user, password=psswd, host=host, database=db_name)
     with connection:
         cur = connection.cursor()
         return cur, connection
@@ -75,7 +78,7 @@ def client_thread(conn, addr, cur, connection, host, user, psswd, db_name):
                             #if check_table_exists(connection):
                                 #print("Table exists")
                             insert_data = "INSERT INTO nasa_data (Key, Value) VALUES ({},{});".format(msg[1], msg[2])
-                            cur.execute(insert_data)
+                            cur.execute(str(insert_data))
                             connection.commit()
 
                             message_to_send = "<" + str(addr[0]) + "> " + 'address saved a record'
