@@ -27,7 +27,7 @@ def main(argv):
     server.bind((ip_address, port))
     server.listen(100)
 
-    cur, connection = start_connection(host, user, psswd)
+    cur, connection = start_connection(host, user, psswd, db_name)
 
     aux = True
     while aux:
