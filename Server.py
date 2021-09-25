@@ -39,19 +39,19 @@ def main(argv):
 	    print (addr[0] + " connected")
 
 	    # creates a thread for every client
-	    start_new_thread(client_thread,(conn,addr, cur, connection, host, user, psswd))	
+	    start_new_thread(client_thread,(conn,addr, cur, connection, host, user, psswd, db_name))	
 
     server.close()
 
-def start_connection(host, user, psswd):
-    connection = pymysql.connect(host=host, user=user, password=psswd)
+def start_connection(host, user, psswd, db_name):
+    connection = pymysql.connect(host=host, user=user, password=psswd, database=db_name)
     with connection:
         cur = connection.cursor()
         return cur, connection
 
 
-def client_thread(conn, addr, cur, connection, host, user, psswd):
-    cur = start_connection(host, user, psswd) 
+def client_thread(conn, addr, cur, connection, host, user, psswd, db_name):
+    cur = start_connection(host, user, psswd, db_name) 
     #sends message
     conn.send(b'Welcome to NASAs data storage')
 
@@ -74,13 +74,7 @@ def client_thread(conn, addr, cur, connection, host, user, psswd):
                             #print("Result of check table: ", check_table_exists(connection))
                             if check_table_exists(connection):
                                 print("Table exists")
-                                insert_data = "INSERT INTO database-1 (Key, Value) VALUES ({},{})".format(msg[1], msg[2])
-                                cur.execute(insert_data)
-                                connection.commit()
-                            else: 
-                                print("Table doesn't exist and it's going to be created")
-                                cur.execute("CREATE TABLE database-1 (Key VARCHAR(255), Value VARCHAR(255))")
-                                insert_data = "INSERT INTO database-1 (Key, Value) VALUES ({},{})".format(msg[1], msg[2])
+                                insert_data = "INSERT INTO nasa (Key, Value) VALUES ({},{})".format(msg[1], msg[2])
                                 cur.execute(insert_data)
                                 connection.commit()
 
@@ -118,10 +112,11 @@ def client_thread(conn, addr, cur, connection, host, user, psswd):
 
 def check_table_exists(db_connection):
     print("Check called")
-    print(db_connection)
+    print("Connection object: ", db_connection)
     db_cur = db_connection.cursor()
     print("before execute")
-    exe = "SELECT * FROM information_schema.tables WHERE table_name = {}".format('database-1')
+    exe = "SELECT * FROM information_schema.tables WHERE table_name = {}".format('nasa')
+    print(exe)
     db_cur.execute(exe)
     print("AFTER EXECUTE")
     if db_cur.fetchone()[0] == 1:
