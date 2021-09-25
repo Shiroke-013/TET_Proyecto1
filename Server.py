@@ -65,6 +65,7 @@ def client_thread(conn, addr, cur, connection, host, user, psswd):
                     #Message structure I/key/value no spaces or S/key/num
                     msg = message.split('/')
                     print(msg)
+                    print("msg size: ", msg.size())
                     if  msg.size() == 3:
                         print(msg)
                         if msg[0] == 'I':
@@ -101,6 +102,11 @@ def client_thread(conn, addr, cur, connection, host, user, psswd):
                                 print("Sending faile")
                                 message_to_send = "<" + str(addr[0]) + "> " + 'table does not exist, failed to read'
                                 send_to_clients(message_to_send, conn)
+                        else: 
+                            print("ELSE from I and S")
+                            message_to_send = "<" + str(addr[0]) + "> " + 'pls be intelligent'
+                            send_to_clients(message_to_send, conn)
+
                 else:
                     print("ELSE REMOVE CONNECTION")
                     remove(conn)
