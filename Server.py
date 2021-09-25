@@ -68,6 +68,7 @@ def client_thread(conn, addr, cur, connection, host, user, psswd):
                     if  msg.size() == 3:
                         print(msg)
                         if msg[0] == "I":
+                            print("insert")
                             #how to save a record in the DB
                             if check_table_exists(connection):
                                 print("Table exists")
@@ -85,6 +86,7 @@ def client_thread(conn, addr, cur, connection, host, user, psswd):
                             send_to_clients(message_to_send, conn)
 
                         elif msg[0] =="S":
+                            print("Select")
                             #how to select records from the DB
                             if check_table_exists(connection):
                                 print("S and table exist")
