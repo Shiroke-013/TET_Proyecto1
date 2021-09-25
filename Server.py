@@ -1,11 +1,8 @@
 import socket
 import select
 import sys
-
-from  _thread import *
-
-#MySQL
 import pymysql
+from  _thread import *
 
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -52,17 +49,19 @@ def start_connection(host, user, psswd, db_name):
         cur = connection.cursor()
         return cur, connection
 
-def client_thread(conn, addr, cur, connection):
-    #sends message
-	conn.send(b'Welcome to NASAs data storage')
 
-	while True:
+def client_thread(conn, addr, cur, connection):
+    cur = start_connection() 
+    #sends message
+    conn.send(b'Welcome to NASAs data storage')
+
+    while True:
             try:
                 message = conn.recv(2048).decode()
 
                 if message: 
                     #Conection to DB and save records
-                    #Message structure I/key/value no spaces or R/key/num
+                    #Message structure I/key/value no spaces or S/key/num
                     msg = message.split('/')
                     if  msg.size() == 3:
                         if msg[0] == "I":
@@ -79,8 +78,14 @@ def client_thread(conn, addr, cur, connection):
 
                             message_to_send = "<" + str(addr[0]) + "> " + 'address saved a record'
                             send_to_clients(message_to_send, conn)
-                        elif msg[0] =="R":
-                            #how to read records from the DB
+
+                        elif msg[0] =="S":
+                            #how to select records from the DB
+                            sel = "SELECT {} FROM {}  WHERE {}".format(msg[2], db_name, msg[1])
+                            data = cur.execute(sel)
+                            for rec in data:
+                                print (rec[0] + "," + rec[1])
+                            
                             message_to_send = "<" + str(addr[0]) + "> " + 'address had read' + msg[2] + 'records'
                             send_to_clients(message_to_send, conn)
                     
@@ -89,7 +94,6 @@ def client_thread(conn, addr, cur, connection):
                     conn.close()
             except:
                 continue
-
 
 def check_table_exists(db_connection):
     db_cur = db_connection.cursor()
@@ -115,6 +119,7 @@ def send_to_clients(message, connection):
             except:
                 clients.close()
                 remove(clients)
+
 
 #remove client if desconected
 def remove(connection):
