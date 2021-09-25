@@ -71,6 +71,7 @@ def client_thread(conn, addr, cur, connection, host, user, psswd):
                         if msg[0] == 'I':
                             print("insert")
                             #how to save a record in the DB
+                            print("Result of check table: ", check_table_exists(connection))
                             if check_table_exists(connection):
                                 print("Table exists")
                                 insert_data = "INSERT INTO database-1 (Key, Value) VALUES ({},{})".format(msg[1], msg[2])
