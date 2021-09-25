@@ -72,11 +72,11 @@ def client_thread(conn, addr, cur, connection, host, user, psswd, db_name):
                             print("insert")
                             #how to save a record in the DB
                             #print("Result of check table: ", check_table_exists(connection))
-                            if check_table_exists(connection):
-                                print("Table exists")
-                                insert_data = "INSERT INTO nasa_data (Key, Value) VALUES ({},{});".format(msg[1], msg[2])
-                                cur.execute(insert_data)
-                                connection.commit()
+                            #if check_table_exists(connection):
+                                #print("Table exists")
+                            insert_data = "INSERT INTO nasa_data (Key, Value) VALUES ({},{});".format(msg[1], msg[2])
+                            cur.execute(insert_data)
+                            connection.commit()
 
                             message_to_send = "<" + str(addr[0]) + "> " + 'address saved a record'
                             send_to_clients(message_to_send, conn)
