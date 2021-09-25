@@ -18,7 +18,7 @@ Ademas se debe installar la biblioteca de pymysql con el siguiente comando:
 </code></pre>
 
 Se planteo una arquitectura del proyecto la cual de ve así:
-[Arquitectura]!(https://github.com/Shiroke-013/TET_Proyecto1/blob/main/Arquitectura_Proyecto1.drawio.png)
+![Arquitectura](https://github.com/Shiroke-013/TET_Proyecto1/blob/main/Arquitectura_Proyecto1.drawio.png)
 
 ## Ejecución
 Primero es necesario crear una base de datos en el recurso RDS de AWS, este debe llevar las siguientes caracteristicas: debe ser Aurora compatible con MySQL, debe estar abierta a conexiones de otras instancias EC2, el grupo de seguridad debe estar abierto a todo trafico por el puerto 3306, debe recordar que usurario y contraseña se ingresa en la configuración.
