@@ -67,10 +67,12 @@ def client_thread(conn, addr, cur, connection, host, user, psswd):
                         if msg[0] == "I":
                             #how to save a record in the DB
                             if check_table_exists(connection):
+                                print("Table exists")
                                 insert_data = """INSERT INTO database-1 (Key, Value) VALUES ({},{})""".format(msg[1], msg[2])
                                 cur.execute(insert_data)
                                 connection.commit()
                             else: 
+                                print("Table doesn't exist and it's going to be created")
                                 cur.execute("CREATE TABLE database-1 (Key VARCHAR(255), Value VARCHAR(255))")
                                 insert_data = """INSERT INTO database-1 (Key, Value) VALUES ({},{})""".format(msg[1], msg[2])
                                 cur.execute(insert_data)
@@ -82,6 +84,7 @@ def client_thread(conn, addr, cur, connection, host, user, psswd):
                         elif msg[0] =="S":
                             #how to select records from the DB
                             if check_table_exists(connection):
+                                print("S and table exist")
                                 sel = "SELECT {} FROM {}  WHERE {}".format(msg[2], db_name, msg[1])
                                 data = cur.execute(sel)
                                 for rec in data:
@@ -90,6 +93,7 @@ def client_thread(conn, addr, cur, connection, host, user, psswd):
                                 message_to_send = "<" + str(addr[0]) + "> " + 'address had read' + msg[2] + 'records'
                                 send_to_clients(message_to_send, conn)
                             else:
+                                print("Sending faile")
                                 message_to_send = "<" + str(addr[0]) + "> " + 'table does not exist, failed to read'
                                 send_to_clients(message_to_send, conn)
                 else:
