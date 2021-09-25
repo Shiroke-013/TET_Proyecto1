@@ -1,5 +1,5 @@
 # TET_Proyecto1
-## Autores: Catalina López Roldán y Andres Dario Chaves
+## Autores: Catalina López Roldán y Andrés Darío Chaves
 ## Descripción
 El proyecto 1 tiene como objetivo el almacenar registros de tipo <key, value> que seran enviados desde diversos clientes. Se a seleccionado un arquitectura Cliente/Servidor, además se usaran recursos como lo son RDS wn aws para aplicar replicación y tolerancia a fallos, ya que este recurso crea una replica de la base de datos master de donde se podran leer datos y si es necesario restaurarlos en caso de perdida de información. La "key" del registro puede ser cualquier tipo de string al igual que el "value".
 
