@@ -74,7 +74,7 @@ def client_thread(conn, addr, cur, connection, host, user, psswd, db_name):
                             #print("Result of check table: ", check_table_exists(connection))
                             if check_table_exists(connection):
                                 print("Table exists")
-                                insert_data = "INSERT INTO nasa (Key, Value) VALUES ({},{})".format(msg[1], msg[2])
+                                insert_data = "INSERT INTO nasa_data (Key, Value) VALUES ({},{})".format(msg[1], msg[2])
                                 cur.execute(insert_data)
                                 connection.commit()
 
@@ -86,7 +86,7 @@ def client_thread(conn, addr, cur, connection, host, user, psswd, db_name):
                             #how to select records from the DB
                             if check_table_exists(connection):
                                 print("S and table exist")
-                                sel = "SELECT {} FROM {}  WHERE {}".format(msg[2], db_name, msg[1])
+                                sel = "SELECT {} FROM {}  WHERE {}".format(msg[2], 'nasa_data', msg[1])
                                 data = cur.execute(sel)
                                 for rec in data:
                                     print (rec[0] + "," + rec[1])
@@ -115,7 +115,7 @@ def check_table_exists(db_connection):
     print("Connection object: ", db_connection)
     db_cur = db_connection.cursor()
     print("before execute")
-    exe = "SELECT * FROM information_schema.tables WHERE table_name = {}".format('nasa')
+    exe = "SELECT * FROM nasa WHERE table_name = {}".format('nasa_data')
     print(exe)
     db_cur.execute(exe)
     print("AFTER EXECUTE")
