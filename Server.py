@@ -40,14 +40,6 @@ def main(argv):
 
     server.close()
 
-def start_connection(host, user, psswd, db_name):
-    #connection = pymysql.connect(host=host, user=user, password=psswd, database=db_name)
-    connection = mysql.connector.connect(user=user, password=psswd, host=host, database=db_name)
-    with connection:
-        cur = connection.cursor()
-        return cur, connection
-
-
 def client_thread(conn, addr, host, user, psswd, db_name):
     #cur = start_connection(host, user, psswd, db_name) 
     connection = mysql.connector.connect(user=user, password=psswd, host=host, database=db_name)
@@ -62,8 +54,6 @@ def client_thread(conn, addr, host, user, psswd, db_name):
             #Conection to DB and save records
             #Message structure I/key/value no spaces or S/key/num
             msg = message.split('/')
-            print(msg)
-            print("msg size: ", len(msg))
             if  len(msg) == 3:
                 if msg[0] == 'I':
                     #how to save a record in the DB
@@ -73,18 +63,16 @@ def client_thread(conn, addr, host, user, psswd, db_name):
                     message_to_send = "<" + str(addr[0]) + "> " + 'address saved a record'
                     send_to_sender(message_to_send, conn)
                 elif msg[0] =='S':
-                    print("Select")
                     #how to select records from the DB
                     sel = "SELECT {} FROM {}  WHERE {};".format(msg[2], 'nasa_data', msg[1])
                     data = cur.execute(sel)
                     send_to_sender(data, conn)
-                    for rec in data:
-                        print (rec[0] + "," + rec[1])
-                    
-                    message_to_send = "<" + str(addr[0]) + "> " + 'address had read' + msg[2] + 'records'
-                    send_to_sender(message_to_send, conn)
+                    #for rec in data:
+                    #    print (rec[0] + "," + rec[1])
+                    #
+                    #message_to_send = "<" + str(addr[0]) + "> " + 'address had read' + msg[2] + 'records'
+                    #send_to_sender(message_to_send, conn)
                 else: 
-                    print("ELSE from I and S")
                     message_to_send = "<" + str(addr[0]) + "> " + 'pls be intelligent'
                     send_to_sender(message_to_send, conn)
         else:
@@ -95,7 +83,6 @@ def client_thread(conn, addr, host, user, psswd, db_name):
 #sends to the sender that register have been saved
 def send_to_sender(message, connection):
     for clients in list_of_clients:
-        print(clients)
         if clients==connection:
             try:
                 clients.send(message.encode())
