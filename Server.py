@@ -33,11 +33,8 @@ def main(argv):
     while aux:
 
 	    conn, addr = server.accept()
-
 	    list_of_clients.append(conn)
-
 	    print (addr[0] + " connected")
-
 	    # creates a thread for every client
 	    start_new_thread(client_thread,(conn, addr, host, user, psswd, db_name))	
 
@@ -59,57 +56,41 @@ def client_thread(conn, addr, host, user, psswd, db_name):
     conn.send(b'Welcome to NASAs data storage')
 
     while True:
-            message = conn.recv(2048).decode()
-            print("Received: ", message)
-            if message: 
-                #Conection to DB and save records
-                #Message structure I/key/value no spaces or S/key/num
-                msg = message.split('/')
-                print(msg)
-                print("msg size: ", len(msg))
-                if  len(msg) == 3:
-                    print(msg)
-                    if msg[0] == 'I':
-                        print("insert")
-                        #how to save a record in the DB
-                        #print("Result of check table: ", check_table_exists(connection))
-                        #if check_table_exists(connection):
-                            #print("Table exists")
-                        insert_data = "INSERT INTO nasa_data (dkey, value) VALUES ('{}','{}');".format(msg[1], msg[2])
-                        print(insert_data)
-                        cur.execute(str(insert_data))
-                        connection.commit()
-                        message_to_send = "<" + str(addr[0]) + "> " + 'address saved a record'
-                        send_to_sender(message_to_send, conn)
-                    elif msg[0] =='S':
-                        print("Select")
-                        #how to select records from the DB
-                        if check_table_exists(connection):
-                            print("S and table exist")
-                            sel = "SELECT {} FROM {}  WHERE {};".format(msg[2], 'nasa_data', msg[1])
-                            print(sel)
-                            data = cur.execute(sel)
-                            send_to_sender(data, conn)
-                            for rec in data:
-                                print (rec[0] + "," + rec[1])
-                            
-                            message_to_send = "<" + str(addr[0]) + "> " + 'address had read' + msg[2] + 'records'
-                            send_to_sender(message_to_send, conn)
-                        else:
-                            print("Sending faile")
-                            message_to_send = "<" + str(addr[0]) + "> " + 'table does not exist, failed to read'
-                            send_to_sender(message_to_send, conn)
-                    else: 
-                        print("ELSE from I and S")
-                        message_to_send = "<" + str(addr[0]) + "> " + 'pls be intelligent'
-                        send_to_sender(message_to_send, conn)
-            else:
-                print("ELSE REMOVE CONNECTION")
-                remove(conn)
-                conn.close()
-                #print("EXCEPT")
-            #except:
-                #continue
+        message = conn.recv(2048).decode()
+        print("Received: ", message)
+        if message: 
+            #Conection to DB and save records
+            #Message structure I/key/value no spaces or S/key/num
+            msg = message.split('/')
+            print(msg)
+            print("msg size: ", len(msg))
+            if  len(msg) == 3:
+                if msg[0] == 'I':
+                    #how to save a record in the DB
+                    insert_data = "INSERT INTO nasa_data (dkey, value) VALUES ('{}','{}');".format(msg[1], msg[2])
+                    cur.execute(str(insert_data))
+                    connection.commit()
+                    message_to_send = "<" + str(addr[0]) + "> " + 'address saved a record'
+                    send_to_sender(message_to_send, conn)
+                elif msg[0] =='S':
+                    print("Select")
+                    #how to select records from the DB
+                    sel = "SELECT {} FROM {}  WHERE {};".format(msg[2], 'nasa_data', msg[1])
+                    data = cur.execute(sel)
+                    send_to_sender(data, conn)
+                    for rec in data:
+                        print (rec[0] + "," + rec[1])
+                    
+                    message_to_send = "<" + str(addr[0]) + "> " + 'address had read' + msg[2] + 'records'
+                    send_to_sender(message_to_send, conn)
+                else: 
+                    print("ELSE from I and S")
+                    message_to_send = "<" + str(addr[0]) + "> " + 'pls be intelligent'
+                    send_to_sender(message_to_send, conn)
+        else:
+            print("ELSE REMOVE CONNECTION")
+            remove(conn)
+            conn.close()
 
 #sends to the sender that register have been saved
 def send_to_sender(message, connection):
