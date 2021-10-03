@@ -80,7 +80,7 @@ def client_thread(conn, addr, host, user, psswd, db_name):
                         cur.execute(str(insert_data))
                         connection.commit()
                         message_to_send = "<" + str(addr[0]) + "> " + 'address saved a record'
-                        send_to_clients(message_to_send, conn)
+                        send_to_sender(message_to_send, conn)
                     elif msg[0] =='S':
                         print("Select")
                         #how to select records from the DB
@@ -89,19 +89,20 @@ def client_thread(conn, addr, host, user, psswd, db_name):
                             sel = "SELECT {} FROM {}  WHERE {};".format(msg[2], 'nasa_data', msg[1])
                             print(sel)
                             data = cur.execute(sel)
+                            send_to_sender(data, conn)
                             for rec in data:
                                 print (rec[0] + "," + rec[1])
                             
                             message_to_send = "<" + str(addr[0]) + "> " + 'address had read' + msg[2] + 'records'
-                            send_to_clients(message_to_send, conn)
+                            send_to_sender(message_to_send, conn)
                         else:
                             print("Sending faile")
                             message_to_send = "<" + str(addr[0]) + "> " + 'table does not exist, failed to read'
-                            send_to_clients(message_to_send, conn)
+                            send_to_sender(message_to_send, conn)
                     else: 
                         print("ELSE from I and S")
                         message_to_send = "<" + str(addr[0]) + "> " + 'pls be intelligent'
-                        send_to_clients(message_to_send, conn)
+                        send_to_sender(message_to_send, conn)
             else:
                 print("ELSE REMOVE CONNECTION")
                 remove(conn)
@@ -128,17 +129,16 @@ def check_table_exists(db_connection):
     print("Cur closed and table does not exist")
     return False
 
-#sends to all cleints that register have been saved
-def send_to_clients(message, connection):
+#sends to the sender that register have been saved
+def send_to_sender(message, connection):
     for clients in list_of_clients:
         print(clients)
-        if clients!=connection:
+        if clients==connection:
             try:
                 clients.send(message.encode())
             except:
                 clients.close()
                 remove(clients)
-
 
 #remove client if desconected
 def remove(connection):
