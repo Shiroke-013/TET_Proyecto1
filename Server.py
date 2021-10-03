@@ -75,7 +75,7 @@ def client_thread(conn, addr, host, user, psswd, db_name):
                         #print("Result of check table: ", check_table_exists(connection))
                         #if check_table_exists(connection):
                             #print("Table exists")
-                        insert_data = "INSERT INTO nasa_data (Key, Value) VALUES ({},{});".format(msg[1], msg[2])
+                        insert_data = "INSERT INTO nasa_data (Key, Value) VALUES ('{}','{}');".format(msg[1], msg[2])
                         print(insert_data)
                         cur.execute(str(insert_data))
                         connection.commit()
