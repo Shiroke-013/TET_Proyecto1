@@ -2,7 +2,7 @@ import socket
 import select
 import sys
 import mysql.connector
-import pymysql
+#import pymysql
 from  _thread import *
 
 
@@ -28,7 +28,7 @@ def main(argv):
     server.bind((ip_address, port))
     server.listen(100)
 
-    cur, connection = start_connection(host, user, psswd, db_name)
+    #cur, connection = start_connection(host, user, psswd, db_name)
 
     print("CUR: ", cur)
     aux = True
@@ -41,7 +41,7 @@ def main(argv):
 	    print (addr[0] + " connected")
 
 	    # creates a thread for every client
-	    start_new_thread(client_thread,(conn,addr, host, user, psswd, db_name))	
+	    start_new_thread(client_thread,(conn, addr, host, user, psswd, db_name))	
 
     server.close()
 
@@ -55,7 +55,8 @@ def start_connection(host, user, psswd, db_name):
 
 def client_thread(conn, addr, host, user, psswd, db_name):
     #cur = start_connection(host, user, psswd, db_name) 
-    cur, connection = start_connection(host, user, psswd, db_name)
+    connection = mysql.connector.connect(user=user, password=psswd, host=host, database=db_name)
+    cur = connection.cursor()
     #sends message
     conn.send(b'Welcome to NASAs data storage')
 
