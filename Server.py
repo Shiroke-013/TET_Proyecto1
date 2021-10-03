@@ -64,7 +64,7 @@ def client_thread(conn, addr, host, user, psswd, db_name):
                     send_to_sender(message_to_send, conn)
                 elif msg[0] =='S':
                     #how to select records from the DB
-                    sel = "SELECT {} FROM {}  WHERE {};".format(msg[2], 'nasa_data', msg[1])
+                    sel = "SELECT * FROM {}  WHERE dkey={} LIMIT {};".format('nasa_data', msg[1], msg[2])
                     data = cur.execute(sel)
                     print("DATA: ", data)
                     #send_to_sender(data, conn)
