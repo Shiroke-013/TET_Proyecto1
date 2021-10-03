@@ -111,24 +111,6 @@ def client_thread(conn, addr, host, user, psswd, db_name):
             #except:
                 #continue
 
-def check_table_exists(db_connection):
-    print("Check called")
-    print("Connection object: ", db_connection)
-    db_cur = db_connection.cursor()
-    print("before execute")
-    exe = "SELECT * FROM information_schema.tables WHERE table_schema='nasa' AND table_name='{}' LIMIT 1;".format('nasa_data')
-    print(exe)
-    db_cur.execute(exe)
-    print("AFTER EXECUTE")
-    if db_cur.fetchone()[0] == 1:
-        db_cur.close()
-        print("Cur closed and table exist")
-        return True
-
-    db_cur.close()
-    print("Cur closed and table does not exist")
-    return False
-
 #sends to the sender that register have been saved
 def send_to_sender(message, connection):
     for clients in list_of_clients:
