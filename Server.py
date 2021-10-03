@@ -41,7 +41,7 @@ def main(argv):
 	    print (addr[0] + " connected")
 
 	    # creates a thread for every client
-	    start_new_thread(client_thread,(conn,addr, cur, connection))	
+	    start_new_thread(client_thread,(conn,addr, host, user, psswd, db_name))	
 
     server.close()
 
@@ -53,8 +53,9 @@ def start_connection(host, user, psswd, db_name):
         return cur, connection
 
 
-def client_thread(conn, addr, cur, connection):
+def client_thread(conn, addr, host, user, psswd, db_name):
     #cur = start_connection(host, user, psswd, db_name) 
+    cur, connection = start_connection(host, user, psswd, db_name)
     #sends message
     conn.send(b'Welcome to NASAs data storage')
 
