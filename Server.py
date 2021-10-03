@@ -66,7 +66,8 @@ def client_thread(conn, addr, host, user, psswd, db_name):
                     #how to select records from the DB
                     sel = "SELECT {} FROM {}  WHERE {};".format(msg[2], 'nasa_data', msg[1])
                     data = cur.execute(sel)
-                    send_to_sender(data, conn)
+                    print("DATA: ", data)
+                    #send_to_sender(data, conn)
                     #for rec in data:
                     #    print (rec[0] + "," + rec[1])
                     #
