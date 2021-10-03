@@ -53,8 +53,8 @@ def start_connection(host, user, psswd, db_name):
         return cur, connection
 
 
-def client_thread(conn, addr, cur, connection, host, user, psswd, db_name):
-    cur = start_connection(host, user, psswd, db_name) 
+def client_thread(conn, addr, cur, connection):
+    #cur = start_connection(host, user, psswd, db_name) 
     #sends message
     conn.send(b'Welcome to NASAs data storage')
 
