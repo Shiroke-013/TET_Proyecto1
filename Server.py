@@ -29,8 +29,6 @@ def main(argv):
     server.listen(100)
 
     #cur, connection = start_connection(host, user, psswd, db_name)
-
-    print("CUR: ", cur)
     aux = True
     while aux:
 
