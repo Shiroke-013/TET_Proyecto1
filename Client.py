@@ -19,8 +19,8 @@ def main(argv):
                     message = socks.recv(2048)
                     print (message.decode())    
                 else:
-                    message = sys.stdin.readline()
-                    if message == "exit\n":
+                    message = sys.stdin.readline().replace("\n", "")
+                    if message == "exit":
                         server.close()
                         aux = False
                     else:
