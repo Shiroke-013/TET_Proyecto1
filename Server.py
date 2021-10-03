@@ -41,7 +41,7 @@ def main(argv):
 	    print (addr[0] + " connected")
 
 	    # creates a thread for every client
-	    start_new_thread(client_thread,(conn,addr, cur, connection, host, user, psswd, db_name))	
+	    start_new_thread(client_thread,(conn,addr, cur, connection))	
 
     server.close()
 
