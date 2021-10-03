@@ -59,59 +59,54 @@ def client_thread(conn, addr, cur, connection, host, user, psswd, db_name):
     conn.send(b'Welcome to NASAs data storage')
 
     while True:
-            try:
-                message = conn.recv(2048).decode()
-                print("Received: ", message)
-
-                if message: 
-                    #Conection to DB and save records
-                    #Message structure I/key/value no spaces or S/key/num
-                    msg = message.split('/')
+            message = conn.recv(2048).decode()
+            print("Received: ", message)
+            if message: 
+                #Conection to DB and save records
+                #Message structure I/key/value no spaces or S/key/num
+                msg = message.split('/')
+                print(msg)
+                print("msg size: ", len(msg))
+                if  len(msg) == 3:
                     print(msg)
-                    print("msg size: ", len(msg))
-                    if  len(msg) == 3:
-                        print(msg)
-                        if msg[0] == 'I':
-                            print("insert")
-                            #how to save a record in the DB
-                            #print("Result of check table: ", check_table_exists(connection))
-                            #if check_table_exists(connection):
-                                #print("Table exists")
-                            insert_data = "INSERT INTO nasa_data (Key, Value) VALUES ({},{});".format(msg[1], msg[2])
-                            cur.execute(str(insert_data))
-                            connection.commit()
-
-                            message_to_send = "<" + str(addr[0]) + "> " + 'address saved a record'
+                    if msg[0] == 'I':
+                        print("insert")
+                        #how to save a record in the DB
+                        #print("Result of check table: ", check_table_exists(connection))
+                        #if check_table_exists(connection):
+                            #print("Table exists")
+                        insert_data = "INSERT INTO nasa_data (Key, Value) VALUES ({},{});".format(msg[1], msg[2])
+                        cur.execute(str(insert_data))
+                        connection.commit()
+                        message_to_send = "<" + str(addr[0]) + "> " + 'address saved a record'
+                        send_to_clients(message_to_send, conn)
+                    elif msg[0] =='S':
+                        print("Select")
+                        #how to select records from the DB
+                        if check_table_exists(connection):
+                            print("S and table exist")
+                            sel = "SELECT {} FROM {}  WHERE {};".format(msg[2], 'nasa_data', msg[1])
+                            data = cur.execute(sel)
+                            for rec in data:
+                                print (rec[0] + "," + rec[1])
+                            
+                            message_to_send = "<" + str(addr[0]) + "> " + 'address had read' + msg[2] + 'records'
                             send_to_clients(message_to_send, conn)
-
-                        elif msg[0] =='S':
-                            print("Select")
-                            #how to select records from the DB
-                            if check_table_exists(connection):
-                                print("S and table exist")
-                                sel = "SELECT {} FROM {}  WHERE {};".format(msg[2], 'nasa_data', msg[1])
-                                data = cur.execute(sel)
-                                for rec in data:
-                                    print (rec[0] + "," + rec[1])
-                                
-                                message_to_send = "<" + str(addr[0]) + "> " + 'address had read' + msg[2] + 'records'
-                                send_to_clients(message_to_send, conn)
-                            else:
-                                print("Sending faile")
-                                message_to_send = "<" + str(addr[0]) + "> " + 'table does not exist, failed to read'
-                                send_to_clients(message_to_send, conn)
-                        else: 
-                            print("ELSE from I and S")
-                            message_to_send = "<" + str(addr[0]) + "> " + 'pls be intelligent'
+                        else:
+                            print("Sending faile")
+                            message_to_send = "<" + str(addr[0]) + "> " + 'table does not exist, failed to read'
                             send_to_clients(message_to_send, conn)
-
-                else:
-                    print("ELSE REMOVE CONNECTION")
-                    remove(conn)
-                    conn.close()
-            except:
-                print("EXCEPT")
-                continue
+                    else: 
+                        print("ELSE from I and S")
+                        message_to_send = "<" + str(addr[0]) + "> " + 'pls be intelligent'
+                        send_to_clients(message_to_send, conn)
+            else:
+                print("ELSE REMOVE CONNECTION")
+                remove(conn)
+                conn.close()
+                #print("EXCEPT")
+            #except:
+                #continue
 
 def check_table_exists(db_connection):
     print("Check called")
