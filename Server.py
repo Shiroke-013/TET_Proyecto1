@@ -62,19 +62,17 @@ def client_thread(conn, addr, host, user, psswd, db_name):
                     connection.commit()
                     message_to_send = "<" + str(addr[0]) + "> " + 'address saved a record'
                     send_to_sender(message_to_send, conn)
+
                 elif msg[0] =='S':
                     #how to select records from the DB
                     sel = "SELECT * FROM {}  WHERE dkey={} LIMIT {};".format('nasa_data', msg[1], msg[2])
-                    print(sel)
                     cur.execute(sel)
                     data = cur.fetchall()
-                    print("DATA: ", data)
                     #send_to_sender(data, conn)
                     for rec in data:
-                        aux = rec[0] + "," + rec[1]
+                        aux = rec[0] + "," + rec[1] + "\n"
                         send_to_sender(aux, conn)
-                    #message_to_send = "<" + str(addr[0]) + "> " + 'address had read' + msg[2] + 'records'
-                    #send_to_sender(message_to_send, conn)
+
                 else: 
                     message_to_send = "<" + str(addr[0]) + "> " + 'pls be intelligent'
                     send_to_sender(message_to_send, conn)
