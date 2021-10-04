@@ -51,6 +51,9 @@ Luego de tener el servidor corriendo se puede poner a correr los clientes que se
 **CONTRASEÑA:** Contraseña de acceso a la base de datos master. <br />
 **NOMBRE_DB:** El nombre de la base de datos a la que se hara la conexión, ya que la tabla dentro de la base de datos llevara el mismo nombre.
 
+**NOTA:** 
+La estructura de los mensajes debe ser la siguiente: Para insertar datos en la base de datos I/[key]/[value] y para leer datos es S/[key]/[cuantos_registros]
+
 # Referencias
 - https://www.geeksforgeeks.org/distributed-database-system/
 - https://es.wikipedia.org/wiki/Write_Once_Read_Many
