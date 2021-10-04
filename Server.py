@@ -69,10 +69,10 @@ def client_thread(conn, addr, host, user, psswd, db_name):
                     cur.execute(sel)
                     data = cur.fetchall()
                     print("DATA: ", data)
-                    send_to_sender(data, conn)
-                    #for rec in data:
-                     #   print (rec[0] + "," + rec[1])
-                    #
+                    #send_to_sender(data, conn)
+                    for rec in data:
+                        aux = rec[0] + "," + rec[1]
+                        send_to_sender(aux, conn)
                     #message_to_send = "<" + str(addr[0]) + "> " + 'address had read' + msg[2] + 'records'
                     #send_to_sender(message_to_send, conn)
                 else: 
