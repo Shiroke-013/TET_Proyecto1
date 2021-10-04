@@ -66,11 +66,12 @@ def client_thread(conn, addr, host, user, psswd, db_name):
                     #how to select records from the DB
                     sel = "SELECT * FROM {}  WHERE dkey={} LIMIT {};".format('nasa_data', msg[1], msg[2])
                     print(sel)
-                    data = cur.execute(sel)
+                    cur.execute(sel)
+                    data = cur.fetchall()
                     print("DATA: ", data)
                     #send_to_sender(data, conn)
                     #for rec in data:
-                    #    print (rec[0] + "," + rec[1])
+                     #   print (rec[0] + "," + rec[1])
                     #
                     #message_to_send = "<" + str(addr[0]) + "> " + 'address had read' + msg[2] + 'records'
                     #send_to_sender(message_to_send, conn)
