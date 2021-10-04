@@ -69,7 +69,7 @@ def client_thread(conn, addr, host, user, psswd, db_name):
                     cur.execute(sel)
                     data = cur.fetchall()
                     print("DATA: ", data)
-                    #send_to_sender(data, conn)
+                    send_to_sender(data, conn)
                     #for rec in data:
                      #   print (rec[0] + "," + rec[1])
                     #
